@@ -4,7 +4,7 @@
           ]).
 :- use_module(library(r/r_call)).
 :- use_module(library(paxos)).
-:- use_module(paxos/ledger).
+:- use_module(library(paxos/ledger)).
 
 setup_paxos :-
     findall(A=B, pax(A, B), C),
