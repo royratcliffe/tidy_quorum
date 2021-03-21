@@ -6,8 +6,8 @@
 :- use_module(library(thread_pool)).
 :- use_module(library(paxos)).
 :- use_module(library(r/r_serve)).
-:- use_module(r/pax).
-:- use_module(tidy/pool).
+:- use_module(library(r/pax)).
+:- use_module(library(tidy/pool)).
 
 :- initialization(up, program).
 
