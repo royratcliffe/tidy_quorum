@@ -20,8 +20,16 @@ pax(node, A) :- paxos_property(node(A)).
 ledger(A, B) :- current_ledger(A, B), atomic(B).
 
 teardown_paxos :-
-    A <- ls(paxos),
-    memberchk("set", A),
-    B <- ls(paxos$set),
-    maplist([X, X-Y]>>(Y <- paxos$set$X), B, C),
-    forall(member(D-[E], C), paxos_set(D, E)).
+    ignore(teardown_paxos(set)),
+    ignore(teardown_paxos(get)).
+
+teardown_paxos(Et) :-
+    Ls <- ls(),
+    memberchk("paxos", Ls),
+    LsPaxos <- ls(paxos),
+    atom_string(Et, Et1),
+    memberchk(Et1, LsPaxos),
+    Pairs0 <- ls(paxos$Et),
+    maplist({Et}/[Key0, Key0-Value0]>>(Value0 <- paxos$Et$Key0), Pairs0, Pairs),
+    atom_concat(paxos_, Et, Goal),
+    forall(member(Key-[Value], Pairs), call(Goal, Key, Value)).
