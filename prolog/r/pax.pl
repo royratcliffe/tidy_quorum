@@ -8,7 +8,7 @@
 
 setup_paxos :-
     findall(A=B, pax(A, B), C),
-    D =.. [env|C],
+    compound_name_arguments(D, env, C),
     <- library(rlang),
     paxos <- D.
 
