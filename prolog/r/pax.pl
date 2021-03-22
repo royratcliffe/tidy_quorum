@@ -12,8 +12,12 @@ setup_paxos :-
     <- library(rlang),
     paxos <- D.
 
-pax(A, B) :- current_ledger(A, B), atomic(B).
+pax(ledger, E) :-
+    findall(B=C, ledger(B, C), D),
+    compound_name_arguments(E, env, D).
 pax(node, A) :- paxos_property(node(A)).
+
+ledger(A, B) :- current_ledger(A, B), atomic(B).
 
 teardown_paxos :-
     A <- ls(paxos),
