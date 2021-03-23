@@ -15,6 +15,8 @@ setup_paxos :-
 pax(ledger, E) :-
     findall(B=C, ledger(B, C), D),
     compound_name_arguments(E, env, D).
+pax(set, env()).
+pax(get, env()).
 pax(node, A) :- paxos_property(node(A)).
 
 ledger(A, B) :- current_ledger(A, B), atomic(B).
