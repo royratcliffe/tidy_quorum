@@ -1,5 +1,5 @@
 name(tidy_quorum).
-version('0.1.0').
+version('0.1.1').
 title('Tidy Quorum').
 author('Roy Ratcliffe', 'royratcliffe@me.com').
 packager('Roy Ratcliffe', 'royratcliffe@me.com').
