@@ -32,7 +32,9 @@ teardown_paxos(Et) :-
     atom_string(Et, Et1),
     memberchk(Et1, LsPaxos),
     Pairs0 <- ls(paxos$Et),
-    maplist({Et}/[Key0, Key0-Value0]>>(Value0 <- paxos$Et$Key0), Pairs0, Pairs),
+    maplist({Et}/[Key0, Key0-Value0]>>
+            (   Value0 <- paxos$Et$Key0
+            ), Pairs0, Pairs),
     atom_concat(paxos_, Et, Goal),
     forall(member(Key-[Value], Pairs),
            (   val(Value, Val),
