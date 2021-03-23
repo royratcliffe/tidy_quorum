@@ -34,4 +34,13 @@ teardown_paxos(Et) :-
     Pairs0 <- ls(paxos$Et),
     maplist({Et}/[Key0, Key0-Value0]>>(Value0 <- paxos$Et$Key0), Pairs0, Pairs),
     atom_concat(paxos_, Et, Goal),
-    forall(member(Key-[Value], Pairs), call(Goal, Key, Value)).
+    forall(member(Key-[Value], Pairs),
+           (   val(Value, Val),
+               call(Goal, Key, Val)
+           )).
+
+val(Value0, Value) :-
+    string(Value0),
+    read_term_from_atom(Value0, v(Value), [syntax_errors(fail)]),
+    !.
+val(Value, Value).
