@@ -1,4 +1,6 @@
-:- module(tidy_eval, []).
+:- module(tidy_eval,
+          [ eval/2
+          ]).
 :- use_module(library(atom)).
 :- use_module(library(strings)).
 :- use_module(library(readutil)).
@@ -29,14 +31,17 @@ tidy(A, B) :- thread_create_in_pool(tidy, eval(A), _,
 
 eval(A) :-
     read_file_to_string(A, B, []),
-    split_string(B, "\n", "\r", C),
-    string_lines(D, C),
-    setup_paxos,
-    r_eval_ex($, D, E),
-    teardown_paxos,
-    (   E \== null
-    ->  writeln(E)
+    eval(B, C),
+    (   C \== null
+    ->  writeln(C)
     ;   true
     ).
+
+eval(Command, Results) :-
+    split_string(Command, "\n", "\r", Lines),
+    string_lines(Command_, Lines),
+    setup_paxos,
+    r_eval_ex($, Command_, Results),
+    teardown_paxos.
 
 r(A) :- directory_member(., A, [extensions(['R', r]), recursive(true)]).
